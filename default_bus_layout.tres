@@ -1,0 +1,69 @@
+[gd_resource type="AudioBusLayout" load_steps=7 format=2]
+
+[sub_resource type="AudioEffectCompressor" id=5]
+resource_name = "Compressor"
+
+[sub_resource type="AudioEffectDelay" id=1]
+resource_name = "Delay"
+tap1/delay_ms = 10.0
+tap1/level_db = -20.37
+tap2/active = false
+
+[sub_resource type="AudioEffectReverb" id=2]
+resource_name = "Reverb"
+room_size = 0.05
+damping = 1.0
+spread = 0.11
+wet = 0.08
+
+[sub_resource type="AudioEffectLowPassFilter" id=3]
+resource_name = "LowPassFilter"
+cutoff_hz = 156.0
+resonance = 0.9
+db = 1
+
+[sub_resource type="AudioEffectAmplify" id=4]
+resource_name = "Amplify"
+volume_db = 3.04
+
+[sub_resource type="AudioEffectDelay" id=6]
+resource_name = "Delay"
+tap1/delay_ms = 132.0
+tap1/level_db = -25.4
+tap2/active = false
+feedback/active = true
+feedback/delay_ms = 516.0
+feedback/level_db = -13.55
+feedback/lowpass = 418.0
+
+[resource]
+bus/0/effect/0/effect = SubResource( 5 )
+bus/0/effect/0/enabled = true
+bus/1/name = "game"
+bus/1/solo = false
+bus/1/mute = false
+bus/1/bypass_fx = false
+bus/1/volume_db = 0.0
+bus/1/send = "Master"
+bus/1/effect/0/effect = SubResource( 1 )
+bus/1/effect/0/enabled = true
+bus/1/effect/1/effect = SubResource( 2 )
+bus/1/effect/1/enabled = true
+bus/2/name = "bass"
+bus/2/solo = false
+bus/2/mute = false
+bus/2/bypass_fx = false
+bus/2/volume_db = 0.0
+bus/2/send = "game"
+bus/2/effect/0/effect = SubResource( 3 )
+bus/2/effect/0/enabled = true
+bus/2/effect/1/effect = SubResource( 4 )
+bus/2/effect/1/enabled = true
+bus/3/name = "explosion"
+bus/3/solo = false
+bus/3/mute = false
+bus/3/bypass_fx = false
+bus/3/volume_db = 0.0
+bus/3/send = "game"
+bus/3/effect/0/effect = SubResource( 6 )
+bus/3/effect/0/enabled = true

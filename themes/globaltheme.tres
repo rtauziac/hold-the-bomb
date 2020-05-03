@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=12 format=2]
+[gd_resource type="Theme" load_steps=17 format=2]
 
 [ext_resource path="res://fonts/files/opensans-bold.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://fonts/files/opensans-regular.ttf" type="DynamicFontData" id=2]
@@ -6,8 +6,9 @@
 [ext_resource path="res://themes/plusminus.png" type="Texture" id=4]
 
 [sub_resource type="DynamicFont" id=1]
-size = 14
 outline_color = Color( 0, 0, 0, 1 )
+extra_spacing_top = 8
+extra_spacing_bottom = 8
 font_data = ExtResource( 1 )
 
 [sub_resource type="StyleBoxFlat" id=2]
@@ -33,8 +34,22 @@ border_color = Color( 0.360784, 0.32549, 0.32549, 0.705882 )
 [sub_resource type="StyleBoxFlat" id=6]
 bg_color = Color( 0.678431, 0.678431, 0.678431, 0.305882 )
 
+[sub_resource type="StyleBoxFlat" id=8]
+bg_color = Color( 0.780392, 0.780392, 0.780392, 1 )
+
+[sub_resource type="StyleBoxFlat" id=9]
+
+[sub_resource type="StyleBoxFlat" id=10]
+
+[sub_resource type="StyleBoxFlat" id=11]
+draw_center = false
+border_width_left = 4
+border_width_right = 4
+border_color = Color( 0, 0, 0, 0.231373 )
+
+[sub_resource type="StyleBoxFlat" id=12]
+
 [sub_resource type="DynamicFont" id=7]
-size = 14
 font_data = ExtResource( 2 )
 
 [resource]
@@ -73,3 +88,12 @@ LineEdit/styles/focus = null
 LineEdit/styles/normal = SubResource( 5 )
 LineEdit/styles/read_only = SubResource( 6 )
 SpinBox/icons/updown = ExtResource( 4 )
+VScrollBar/icons/decrement = null
+VScrollBar/icons/decrement_highlight = null
+VScrollBar/icons/increment = null
+VScrollBar/icons/increment_highlight = null
+VScrollBar/styles/grabber = SubResource( 8 )
+VScrollBar/styles/grabber_highlight = SubResource( 9 )
+VScrollBar/styles/grabber_pressed = SubResource( 10 )
+VScrollBar/styles/scroll = SubResource( 11 )
+VScrollBar/styles/scroll_focus = SubResource( 12 )
