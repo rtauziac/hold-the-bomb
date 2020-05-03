@@ -15,13 +15,12 @@ func _start_game():
 	randomize()
 	playerCount = $"/root/globals".numberOfPlayers
 	
-	bombDuration = 60 + rand_range(-40, 40)
-	#bombDuration = 5
+	bombDuration = 5 + rand_range(0, 15)
 	
 	playing = true
 	for n in range(0, playerCount):
 		var newPlayer = playerScene.instance()
-		$"board/players".add_child(newPlayer)
+		$"board/MarginContainer/players".add_child(newPlayer)
 	
 	_update_bomb_display()
 
@@ -48,8 +47,10 @@ func _on_holdButton_button_up():
 		_update_bomb_display()
 
 func _update_bomb_display():
-	for i in range(0, $"board/players".get_child_count()):
-		var player = $"board/players".get_child(i)._set_bomb(i == bombHolderIndex)
+	var playersControl = $board/MarginContainer/players
+	for i in range(0, playersControl.get_child_count()):
+		var player = playersControl.get_child(i)
+		player._set_bomb(i == bombHolderIndex)
 
 func _on_menuButton_pressed():
 	get_tree().change_scene("res://menu.tscn")
