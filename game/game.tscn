@@ -1,7 +1,7 @@
 [gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://game/card_bg.png" type="Texture" id=1]
-[ext_resource path="res://fonts/files/opensans-bold.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://fonts/files/friendlyscribbles.ttf" type="DynamicFontData" id=2]
 [ext_resource path="res://game.gd" type="Script" id=3]
 [ext_resource path="res://game/player.tscn" type="PackedScene" id=4]
 [ext_resource path="res://themes/globaltheme.tres" type="Theme" id=5]
@@ -31,7 +31,7 @@ func _explode():
 "
 
 [sub_resource type="Curve" id=4]
-_data = [ Vector2( 0.412121, 0.0363636 ), 0.0, 0.169811, 0, 0, Vector2( 0.8, 0.772727 ), 5.34783, 5.34783, 0, 0, Vector2( 0.927273, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.113208, 0.0, 0, 0 ]
+_data = [ Vector2( 0.188073, 0 ), 0.0, 0.169811, 0, 0, Vector2( 0.8, 0.772727 ), 3.61574, 3.61574, 0, 0, Vector2( 0.927273, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.113208, 0.0, 0, 0 ]
 
 [sub_resource type="Theme" id=8]
 Label/colors/font_color = Color( 1, 1, 1, 1 )
@@ -60,9 +60,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 theme = ExtResource( 5 )
 script = ExtResource( 3 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 playerScene = ExtResource( 4 )
 playerCount = 4
 
@@ -73,9 +70,6 @@ custom_constants/margin_right = 5
 custom_constants/margin_top = 5
 custom_constants/margin_left = 5
 custom_constants/margin_bottom = 5
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Vertical" type="VBoxContainer" parent="MainMargin"]
 margin_left = 5.0
@@ -133,7 +127,7 @@ __meta__ = {
 }
 
 [node name="Bomb" type="Node2D" parent="MainMargin/Vertical/BoardMargin/board/MarginContainer"]
-position = Vector2( 199.673, 184.088 )
+position = Vector2( 45.3327, 44.2367 )
 script = SubResource( 3 )
 nudgeStrength = 30.0
 curve = SubResource( 4 )
@@ -152,6 +146,7 @@ __meta__ = {
 }
 
 [node name="EndPanel" type="MarginContainer" parent="."]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 __meta__ = {
@@ -167,9 +162,9 @@ __meta__ = {
 }
 
 [node name="MainVBox" type="VBoxContainer" parent="EndPanel"]
-margin_top = 196.0
+margin_top = 201.0
 margin_right = 400.0
-margin_bottom = 304.0
+margin_bottom = 299.0
 size_flags_vertical = 4
 custom_constants/separation = 15
 __meta__ = {
@@ -178,18 +173,18 @@ __meta__ = {
 
 [node name="Center" type="CenterContainer" parent="EndPanel/MainVBox"]
 margin_right = 400.0
-margin_bottom = 43.0
+margin_bottom = 33.0
 
 [node name="ScoreVBox" type="VBoxContainer" parent="EndPanel/MainVBox/Center"]
-margin_left = 91.0
-margin_right = 308.0
-margin_bottom = 43.0
+margin_left = 98.0
+margin_right = 302.0
+margin_bottom = 33.0
 size_flags_vertical = 3
 theme = SubResource( 8 )
 
 [node name="LooseLabel" type="Label" parent="EndPanel/MainVBox/Center/ScoreVBox"]
-margin_right = 217.0
-margin_bottom = 39.0
+margin_right = 204.0
+margin_bottom = 29.0
 custom_fonts/font = SubResource( 2 )
 text = "Player % looses"
 align = 1
@@ -199,23 +194,24 @@ __meta__ = {
 }
 
 [node name="ScoreboardColumnsContainer" type="HBoxContainer" parent="EndPanel/MainVBox/Center/ScoreVBox"]
-margin_top = 43.0
-margin_right = 217.0
-margin_bottom = 43.0
+margin_top = 33.0
+margin_right = 204.0
+margin_bottom = 33.0
+custom_constants/separation = 20
 
 [node name="Column1" type="VBoxContainer" parent="EndPanel/MainVBox/Center/ScoreVBox/ScoreboardColumnsContainer"]
-margin_right = 106.0
+margin_right = 92.0
 size_flags_horizontal = 3
 
 [node name="Column2" type="VBoxContainer" parent="EndPanel/MainVBox/Center/ScoreVBox/ScoreboardColumnsContainer"]
-margin_left = 110.0
-margin_right = 217.0
+margin_left = 112.0
+margin_right = 204.0
 size_flags_horizontal = 3
 
 [node name="MenuMargin" type="MarginContainer" parent="EndPanel/MainVBox"]
-margin_top = 58.0
+margin_top = 48.0
 margin_right = 400.0
-margin_bottom = 108.0
+margin_bottom = 98.0
 
 [node name="MenuButton" type="Button" parent="EndPanel/MainVBox/MenuMargin"]
 margin_left = 137.0
@@ -230,6 +226,8 @@ __meta__ = {
 }
 
 [node name="BombTween" type="Tween" parent="."]
+
+[node name="ScrollTween" type="Tween" parent="."]
 
 [node name="IgniteSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 7 )
@@ -252,10 +250,11 @@ position = Vector2( 204.673, 189.088 )
 scale = Vector2( 0.8, 0.8 )
 emitting = false
 amount = 80
-lifetime = 3.0
+lifetime = 3.5
 one_shot = true
 preprocess = 0.1
-explosiveness = 0.96
+explosiveness = 1.0
+lifetime_randomness = 0.4
 local_coords = false
 draw_order = 1
 texture = ExtResource( 10 )
@@ -268,6 +267,10 @@ damping = 100.0
 scale_amount_random = 1.0
 scale_amount_curve = SubResource( 6 )
 color_ramp = SubResource( 7 )
+
+[node name="WaitBetweenPlayersTimer" type="Timer" parent="."]
+one_shot = true
+
 [connection signal="button_down" from="MainMargin/Vertical/holdButton" to="." method="_on_holdButton_button_down"]
 [connection signal="button_up" from="MainMargin/Vertical/holdButton" to="." method="_on_holdButton_button_up"]
 [connection signal="pressed" from="EndPanel/MainVBox/MenuMargin/MenuButton" to="." method="_on_menuButton_pressed"]

@@ -30,7 +30,7 @@ func _start_game():
 	endPanel.visible = false
 	playerCount = $"/root/globals".numberOfPlayers
 	
-	bombStartDuration = 3 + rand_range(0, 4)
+	bombStartDuration = 3 + rand_range(0, 4) + (playerCount * 0.11)
 	bombDuration = bombStartDuration
 	
 	while colorNames.size() > playerCount:
@@ -52,6 +52,8 @@ func _end_game():
 	endPanel.visible = true
 	looseLabel.text = "%s looses" % colorNames[bombHolderIndex]
 	bomb._explode()
+	Input.vibrate_handheld(600)
+	Input.start_joy_vibration(0, 0.9, 0.6, 1.0)
 	$ExplosionParticles.global_position = bomb.global_position
 	$ExplosionParticles.emitting = true
 	$IgniteSound.stop()
@@ -79,10 +81,14 @@ func _on_holdButton_button_down():
 		isHolding = true
 
 func _on_holdButton_button_up():
-	if playing:
+	if playing and isHolding:
 		isHolding = false
 		bombHolderIndex = (bombHolderIndex + 1) % playerCount
+		$MainMargin/Vertical/holdButton.disabled = true
 		_update_bomb_display()
+		$WaitBetweenPlayersTimer.start()
+		yield($WaitBetweenPlayersTimer, "timeout")
+		$MainMargin/Vertical/holdButton.disabled = false
 
 func _update_bomb_display():
 	var playersControl = players
@@ -91,15 +97,17 @@ func _update_bomb_display():
 		player._set_bomb(i == bombHolderIndex)
 		
 		if (i == bombHolderIndex):
-			bomb.position = player.rect_position + scrollTopLeftMargin + (playerBombSize / 2)
+			$BombTween.interpolate_property(bomb, "position", bomb.position, player.rect_position + scrollTopLeftMargin + (playerBombSize / 2), 1.0, Tween.TRANS_EXPO, Tween.EASE_OUT)
+			$BombTween.start()
+#			bomb.position = player.rect_position + scrollTopLeftMargin + (playerBombSize / 2)
 			#set scroll position to follow the current user
 			var scrollSize = board.rect_size
 			if board.scroll_vertical > player.rect_position.y + scrollTopLeftMargin.y:
-				$BombTween.interpolate_property(board, "scroll_vertical", board.scroll_vertical, player.rect_position.y + scrollTopLeftMargin.y, 0.8, Tween.TRANS_QUAD, Tween.EASE_OUT)
-				$BombTween.start()
+				$ScrollTween.interpolate_property(board, "scroll_vertical", board.scroll_vertical, player.rect_position.y + scrollTopLeftMargin.y, 0.8, Tween.TRANS_QUAD, Tween.EASE_OUT)
+				$ScrollTween.start()
 			elif board.scroll_vertical < player.rect_position.y - scrollSize.y + player.rect_size.y + scrollTopLeftMargin.y:
-				$BombTween.interpolate_property(board, "scroll_vertical", board.scroll_vertical, player.rect_position.y - scrollSize.y + player.rect_size.y + scrollTopLeftMargin.y, 0.4, Tween.TRANS_QUAD, Tween.EASE_OUT)
-				$BombTween.start()
+				$ScrollTween.interpolate_property(board, "scroll_vertical", board.scroll_vertical, player.rect_position.y - scrollSize.y + player.rect_size.y + scrollTopLeftMargin.y, 0.4, Tween.TRANS_QUAD, Tween.EASE_OUT)
+				$ScrollTween.start()
 	
 	#set bomb shake strength
 	var progress = (bombStartDuration - bombDuration) / bombStartDuration
@@ -109,3 +117,5 @@ func _update_bomb_display():
 
 func _on_menuButton_pressed():
 	var _error = get_tree().change_scene("res://menu.tscn")
+
+
